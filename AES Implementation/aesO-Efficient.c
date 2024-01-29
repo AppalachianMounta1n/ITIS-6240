@@ -9,8 +9,13 @@
  * UNC Charlotte
  * Charlotte, NC 28223
  * yonwang@uncc.edu
- *
  */
+
+/*
+AES Efficiency Modifications
+Worked on by Lily Gross, Ryan Braswell, and Reed Holz for ITIS 6240 in Spring 2024 off of base code written and provided by Dr. Yongge Wang.
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
