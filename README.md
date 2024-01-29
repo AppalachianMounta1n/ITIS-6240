@@ -6,9 +6,24 @@ This repository is for storing and collaborating on the project files for ITIS 6
 - [Reed Holz](https://github.com/reedholz)
 
 ***
-## AES Implementation
+## AES Implementation - Due 2/9/2024
 The base file [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO.c) was provided by the professor, Dr. Yongge Wang. The updated file [aesO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO%20-%20Efficient.c) is the project file where our code is being updated to optimize the performance of the original program.
 
 ### Relevant Files
 - [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO.c)
 - [aesO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO%20-%20Efficient.c)
+
+***
+## SHA Implementation - Due 2/23/2024
+
+
+***
+## OpenSSL Project - Due 3/22/2024
+
+
+***
+## VPN Project - Due 4/12/2024
+
+
+***
+## Research Paper - Due 4/29/2024
