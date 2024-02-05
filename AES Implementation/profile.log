@@ -1,0 +1,216 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 28.68      3.68     3.68 3168006336     0.00     0.00  f256times2
+ 26.89      7.13     3.45 1056002112     0.00     0.00  f256mul
+ 12.47      8.73     1.60  3000006     0.00     0.00  KeyExpansion
+  6.63      9.58     0.85  1500003     0.00     0.00  AES_encrypt
+  6.39     10.40     0.82 16500033     0.00     0.00  InvMixColumns
+  6.39     11.22     0.82  1500003     0.00     0.00  AES_decrypt
+  5.85     11.97     0.75 16500033     0.00     0.00  MixColumns
+  4.44     12.54     0.57 18000036     0.00     0.00  SubBytes
+  1.56     12.74     0.20 18000036     0.00     0.00  InvShiftRows
+  0.70     12.83     0.09 18000036     0.00     0.00  ShiftRows
+  0.00     12.83     0.00        3     0.00     0.00  aeskey_free
+  0.00     12.83     0.00        3     0.00     0.00  aeskey_init
+  0.00     12.83     0.00        3     0.00     3.26  testDecryption
+  0.00     12.83     0.00        3     0.00     1.02  testEncryption
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.08% of 12.83 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00   12.83                 main [1]
+                0.00    9.77       3/3           testDecryption [3]
+                0.00    3.06       3/3           testEncryption [8]
+                0.00    0.00       3/3           aeskey_init [15]
+                0.00    0.00       3/3           aeskey_free [14]
+-----------------------------------------------
+                0.82    8.95 1500003/1500003     testDecryption [3]
+[2]     76.1    0.82    8.95 1500003         AES_decrypt [2]
+                0.82    7.13 16500033/16500033     InvMixColumns [4]
+                0.80    0.00 1500003/3000006     KeyExpansion [9]
+                0.20    0.00 18000036/18000036     InvShiftRows [12]
+-----------------------------------------------
+                0.00    9.77       3/3           main [1]
+[3]     76.1    0.00    9.77       3         testDecryption [3]
+                0.82    8.95 1500003/1500003     AES_decrypt [2]
+-----------------------------------------------
+                0.82    7.13 16500033/16500033     AES_decrypt [2]
+[4]     62.0    0.82    7.13 16500033         InvMixColumns [4]
+                3.45    3.68 1056002112/1056002112     f256mul [5]
+-----------------------------------------------
+                3.45    3.68 1056002112/1056002112     InvMixColumns [4]
+[5]     55.6    3.45    3.68 1056002112         f256mul [5]
+                3.68    0.00 3168006336/3168006336     f256times2 [6]
+-----------------------------------------------
+                3.68    0.00 3168006336/3168006336     f256mul [5]
+[6]     28.7    3.68    0.00 3168006336         f256times2 [6]
+-----------------------------------------------
+                0.85    2.21 1500003/1500003     testEncryption [8]
+[7]     23.9    0.85    2.21 1500003         AES_encrypt [7]
+                0.80    0.00 1500003/3000006     KeyExpansion [9]
+                0.75    0.00 16500033/16500033     MixColumns [10]
+                0.57    0.00 18000036/18000036     SubBytes [11]
+                0.09    0.00 18000036/18000036     ShiftRows [13]
+-----------------------------------------------
+                0.00    3.06       3/3           main [1]
+[8]     23.9    0.00    3.06       3         testEncryption [8]
+                0.85    2.21 1500003/1500003     AES_encrypt [7]
+-----------------------------------------------
+                0.80    0.00 1500003/3000006     AES_encrypt [7]
+                0.80    0.00 1500003/3000006     AES_decrypt [2]
+[9]     12.5    1.60    0.00 3000006         KeyExpansion [9]
+-----------------------------------------------
+                0.75    0.00 16500033/16500033     AES_encrypt [7]
+[10]     5.8    0.75    0.00 16500033         MixColumns [10]
+-----------------------------------------------
+                0.57    0.00 18000036/18000036     AES_encrypt [7]
+[11]     4.4    0.57    0.00 18000036         SubBytes [11]
+-----------------------------------------------
+                0.20    0.00 18000036/18000036     AES_decrypt [2]
+[12]     1.6    0.20    0.00 18000036         InvShiftRows [12]
+-----------------------------------------------
+                0.09    0.00 18000036/18000036     AES_encrypt [7]
+[13]     0.7    0.09    0.00 18000036         ShiftRows [13]
+-----------------------------------------------
+                0.00    0.00       3/3           main [1]
+[14]     0.0    0.00    0.00       3         aeskey_free [14]
+-----------------------------------------------
+                0.00    0.00       3/3           main [1]
+[15]     0.0    0.00    0.00       3         aeskey_init [15]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+   [2] AES_decrypt            [10] MixColumns              [5] f256mul
+   [7] AES_encrypt            [13] ShiftRows               [6] f256times2
+   [4] InvMixColumns          [11] SubBytes                [3] testDecryption
+  [12] InvShiftRows           [14] aeskey_free             [8] testEncryption
+   [9] KeyExpansion           [15] aeskey_init
