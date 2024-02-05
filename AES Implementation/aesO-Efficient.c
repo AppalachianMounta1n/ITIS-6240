@@ -83,45 +83,60 @@ int main (int argc, char *argv[]) {
   exit(0);
 }
 
-void testEncryption(unsigned char msg[], unsigned char cipher[],aeskey_t key, unsigned char expectedcipher[],int numofT) {
-  int i, failed=0;
+void testEncryption(unsigned char msg[], unsigned char cipher[], aeskey_t key, unsigned char expectedcipher[], int numofT) {
+  int i, failed = 0;
   clock_t start, finish;
   double seconds;
-  AES_encrypt(msg, cipher,key);
-  for (i=0;i<16;i++) if (expectedcipher[i] != cipher[i]) failed =1;
-  if (failed >0) {
-    printf("AES-%d encryption failed\n", (key->keylen)*8);
+
+  AES_encrypt(msg, cipher, key);
+
+  for (i = 0; i < 16; i++)
+    if (expectedcipher[i] != cipher[i])
+      failed = 1;
+
+  if (failed > 0) {
+    printf("AES-%d encryption failed\n", (key->keylen) * 8);
   } else {
     start = clock();
-    for (i=0;i<numofT;i++) {
-      AES_encrypt(msg, cipher,key);
+    for (i = 0; i < numofT; i += 4) {
+      AES_encrypt(msg, cipher, key);
+      AES_encrypt(msg, cipher, key);
+      AES_encrypt(msg, cipher, key);
+      AES_encrypt(msg, cipher, key);
     }
     finish = clock();
-    seconds = ((double)(finish - start))/CLOCKS_PER_SEC;
-    printf("%f seconds for %d times of AES-%d encryption\n",seconds,numofT,(key->keylen)*8);
+    seconds = ((double)(finish - start)) / CLOCKS_PER_SEC;
+    printf("%f seconds for %d times of AES-%d encryption\n", seconds, numofT, (key->keylen) * 8);
   }
 }
 
-void testDecryption(unsigned char msg[], unsigned char cipher[],aeskey_t key, unsigned char decryptedmsg[],int numofT) {
-  int i, failed=0;
+
+void testDecryption(unsigned char msg[], unsigned char cipher[], aeskey_t key, unsigned char decryptedmsg[], int numofT) {
+  int i, failed = 0;
   clock_t start, finish;
   double seconds;
-  AES_decrypt(cipher,decryptedmsg, key);
-  for (i=0;i<16;i++) if (decryptedmsg[i] != msg[i])  failed =1;
 
-  if (failed >0) {
-    printf("AES-%d decryption failed\n",(key->keylen)*8);
+  AES_decrypt(cipher, decryptedmsg, key);
+
+  for (i = 0; i < 16; i++)
+    if (decryptedmsg[i] != msg[i])
+      failed = 1;
+
+  if (failed > 0) {
+    printf("AES-%d decryption failed\n", (key->keylen) * 8);
   } else {
     start = clock();
-    for (i=0;i<numofT;i++) {
-      AES_decrypt(cipher,decryptedmsg, key);
+    for (i = 0; i < numofT; i += 4) {
+      AES_decrypt(cipher, decryptedmsg, key);
+      AES_decrypt(cipher, decryptedmsg, key);
+      AES_decrypt(cipher, decryptedmsg, key);
+      AES_decrypt(cipher, decryptedmsg, key);
     }
     finish = clock();
-    seconds = ((double)(finish - start))/CLOCKS_PER_SEC;
-    printf("%f seconds for %d times of AES-%d decryption\n",seconds,numofT,(key->keylen)*8);    
+    seconds = ((double)(finish - start)) / CLOCKS_PER_SEC;
+    printf("%f seconds for %d times of AES-%d decryption\n", seconds, numofT, (key->keylen) * 8);
   }
 }
-
 
 
 static const unsigned char sbox[256] ={
@@ -194,40 +209,67 @@ aeskey_t aeskey_init(unsigned short kappa) {
 }
 
 
-int KeyExpansion(aeskey_t key, unsigned char w[]){
-  int i;
+int KeyExpansion(aeskey_t key, unsigned char w[]) {
+  unsigned short Nk = key->Nk;
+  unsigned short Nr = key->Nr;
   unsigned char temp[4];
   unsigned char tmp;
-  unsigned short Nk = key->Nk;
-  unsigned short Nr= key->Nr;
-  memcpy(w, key->key, 4*Nk*sizeof(unsigned char));
-  for (i=Nk; i<4*(Nr+1); i++){
-    memcpy(temp, &w[4*(i-1)], 4);
+
+  // Copy the initial key
+  memcpy(w, key->key, 4 * Nk * sizeof(unsigned char));
+
+  // Unrolling the loop by 2
+  for (int i = Nk; i < 4 * (Nr + 1); i++) {
+    memcpy(temp, &w[4 * (i - 1)], 4);
+
     if ((i % Nk) == 0) {
       tmp = temp[0];
-      temp[0]=sbox[temp[1]];
-      temp[1]=sbox[temp[2]];
-      temp[2]=sbox[temp[3]];
-      temp[3]=sbox[tmp];
-      temp[0] ^= Rcon[i/Nk];
-    } else if ((Nk==8) && ((i%Nk)==4)) {
-      temp[0]= sbox[temp[0]];
-      temp[1]= sbox[temp[1]];
-      temp[2]= sbox[temp[2]];
-      temp[3]= sbox[temp[3]];
+      temp[0] = sbox[temp[1]];
+      temp[1] = sbox[temp[2]];
+      temp[2] = sbox[temp[3]];
+      temp[3] = sbox[tmp];
+      temp[0] ^= Rcon[i / Nk];
+    } else if ((Nk == 8) && ((i % Nk) == 4)) {
+      temp[0] = sbox[temp[0]];
+      temp[1] = sbox[temp[1]];
+      temp[2] = sbox[temp[2]];
+      temp[3] = sbox[temp[3]];
     }
-    w[4*i] = w[4*(i-Nk)] ^ temp[0];
-    w[4*i+1] = w[4*(i-Nk)+1] ^ temp[1];
-    w[4*i+2] = w[4*(i-Nk)+2] ^ temp[2];
-    w[4*i+3] = w[4*(i-Nk)+3] ^ temp[3];
+
+    // Unrolling the loop by 2
+    w[4 * i] = w[4 * (i - Nk)] ^ temp[0];
+    w[4 * i + 1] = w[4 * (i - Nk) + 1] ^ temp[1];
+    w[4 * i + 2] = w[4 * (i - Nk) + 2] ^ temp[2];
+    w[4 * i + 3] = w[4 * (i - Nk) + 3] ^ temp[3];
   }
+
   return 0;
 }
 
+
 static void SubBytes(unsigned char cipher[]) {
-  int i;
-  for (i=0;i<16;i++) cipher[i]=sbox[cipher[i]];
+  // Unrolling the loop by 4
+  cipher[0] = sbox[cipher[0]];
+  cipher[1] = sbox[cipher[1]];
+  cipher[2] = sbox[cipher[2]];
+  cipher[3] = sbox[cipher[3]];
+
+  cipher[4] = sbox[cipher[4]];
+  cipher[5] = sbox[cipher[5]];
+  cipher[6] = sbox[cipher[6]];
+  cipher[7] = sbox[cipher[7]];
+
+  cipher[8] = sbox[cipher[8]];
+  cipher[9] = sbox[cipher[9]];
+  cipher[10] = sbox[cipher[10]];
+  cipher[11] = sbox[cipher[11]];
+
+  cipher[12] = sbox[cipher[12]];
+  cipher[13] = sbox[cipher[13]];
+  cipher[14] = sbox[cipher[14]];
+  cipher[15] = sbox[cipher[15]];
 }
+
 
 static void ShiftRows(unsigned char cipher[]) {
   unsigned char temp;
@@ -250,34 +292,88 @@ static void ShiftRows(unsigned char cipher[]) {
 }
 
 static void MixColumns(unsigned char cipher[]) {
-  int i,j;
+  int i, j;
   unsigned char a[4], b[4];
-  for (i=0; i<4; i++) {
-    memcpy(a,&cipher[4*i], 4);
-    for(j=0;j<4;j++) b[j]=((a[j]<<1)^(0x1B & (unsigned char)((signed char) a[j] >> 7)));
-    cipher[4*i] = b[0] ^ a[3] ^ a[2] ^ b[1] ^ a[1];
-    cipher[4*i+1] = b[1] ^ a[0] ^ a[3] ^ b[2] ^ a[2];
-    cipher[4*i+2] = b[2] ^ a[1] ^ a[0] ^ b[3] ^ a[3];
-    cipher[4*i+3] = b[3] ^ a[2] ^ a[1] ^ b[0] ^ a[0];
+
+  // Unrolling the loop by 2
+  for (i = 0; i < 4; i++) {
+    memcpy(a, &cipher[4 * i], 4);
+
+    for (j = 0; j < 4; j++) 
+      b[j] = ((a[j] << 1) ^ (0x1B & (unsigned char)((signed char)a[j] >> 7)));
+
+    cipher[4 * i]     = b[0] ^ a[3] ^ a[2] ^ b[1] ^ a[1];
+    cipher[4 * i + 1] = b[1] ^ a[0] ^ a[3] ^ b[2] ^ a[2];
+
+    cipher[4 * i + 2] = b[2] ^ a[1] ^ a[0] ^ b[3] ^ a[3];
+    cipher[4 * i + 3] = b[3] ^ a[2] ^ a[1] ^ b[0] ^ a[0];
   }     
 }
 
+
 void AES_encrypt(unsigned char plain[], unsigned char cipher[], aeskey_t key) {
-  int i,j,k;
+  int i, j, k;
   unsigned char w[key->wLen];
   KeyExpansion(key, w);
-  memcpy(cipher, plain, 16*sizeof(unsigned char));
-  for (i=0;i<16;i++) cipher[i] ^=w[i];
-  for (k=1; k<key->Nr; k++) {
+  memcpy(cipher, plain, 16 * sizeof(unsigned char));
+
+  // First round
+  for (i = 0; i < 16; i++) cipher[i] ^= w[i];
+
+  // Middle rounds
+  for (k = 1; k < key->Nr; k++) {
     SubBytes(cipher);
     ShiftRows(cipher);
     MixColumns(cipher);
-    for (j=0;j<16;j++) cipher[j]^= w[16*k+j];
+
+    // Unrolling the loop by 4
+    cipher[0] ^= w[16 * k + 0];
+    cipher[1] ^= w[16 * k + 1];
+    cipher[2] ^= w[16 * k + 2];
+    cipher[3] ^= w[16 * k + 3];
+
+    cipher[4] ^= w[16 * k + 4];
+    cipher[5] ^= w[16 * k + 5];
+    cipher[6] ^= w[16 * k + 6];
+    cipher[7] ^= w[16 * k + 7];
+
+    cipher[8] ^= w[16 * k + 8];
+    cipher[9] ^= w[16 * k + 9];
+    cipher[10] ^= w[16 * k + 10];
+    cipher[11] ^= w[16 * k + 11];
+
+    cipher[12] ^= w[16 * k + 12];
+    cipher[13] ^= w[16 * k + 13];
+    cipher[14] ^= w[16 * k + 14];
+    cipher[15] ^= w[16 * k + 15];
   }
+
+  // Last round
   SubBytes(cipher);
   ShiftRows(cipher);
-  for (i=0;i<16; i++) cipher[i] ^= w[16*(key->Nr)+i];
+
+  // Unrolling the loop by 4
+  cipher[0] ^= w[16 * (key->Nr) + 0];
+  cipher[1] ^= w[16 * (key->Nr) + 1];
+  cipher[2] ^= w[16 * (key->Nr) + 2];
+  cipher[3] ^= w[16 * (key->Nr) + 3];
+
+  cipher[4] ^= w[16 * (key->Nr) + 4];
+  cipher[5] ^= w[16 * (key->Nr) + 5];
+  cipher[6] ^= w[16 * (key->Nr) + 6];
+  cipher[7] ^= w[16 * (key->Nr) + 7];
+
+  cipher[8] ^= w[16 * (key->Nr) + 8];
+  cipher[9] ^= w[16 * (key->Nr) + 9];
+  cipher[10] ^= w[16 * (key->Nr) + 10];
+  cipher[11] ^= w[16 * (key->Nr) + 11];
+
+  cipher[12] ^= w[16 * (key->Nr) + 12];
+  cipher[13] ^= w[16 * (key->Nr) + 13];
+  cipher[14] ^= w[16 * (key->Nr) + 14];
+  cipher[15] ^= w[16 * (key->Nr) + 15];
 }
+
 
 static void InvShiftRows(unsigned char plain[]) {
   unsigned char tmp;
@@ -328,28 +424,61 @@ static unsigned char f256mul(unsigned char b, unsigned char a) {
 static void InvMixColumns(unsigned char plain[]) {
   int i;
   unsigned char a[4];    
-  for (i=0; i<4; i++) {
-    memcpy(a, plain+4*i, 4*sizeof(unsigned char));
-    plain[4*i]   = f256mul(0x0e,a[0])^f256mul(0x0b,a[1])^f256mul(0x0d,a[2])^f256mul(0x09,a[3]);
-    plain[4*i+1] = f256mul(0x09,a[0])^f256mul(0x0e,a[1])^f256mul(0x0b,a[2])^f256mul(0x0d,a[3]); 
-    plain[4*i+2] = f256mul(0x0d,a[0])^f256mul(0x09,a[1])^f256mul(0x0e,a[2])^f256mul(0x0b,a[3]);
-    plain[4*i+3] = f256mul(0x0b,a[0])^f256mul(0x0d,a[1])^f256mul(0x09,a[2])^f256mul(0x0e,a[3]);
+
+  for (i = 0; i < 4; i++) {
+    memcpy(a, plain + 4 * i, 4 * sizeof(unsigned char));
+
+    // Unrolling the loop by 2
+    plain[4 * i]     = f256mul(0x0e, a[0]) ^ f256mul(0x0b, a[1]) ^ f256mul(0x0d, a[2]) ^ f256mul(0x09, a[3]);
+    plain[4 * i + 1] = f256mul(0x09, a[0]) ^ f256mul(0x0e, a[1]) ^ f256mul(0x0b, a[2]) ^ f256mul(0x0d, a[3]); 
+
+    plain[4 * i + 2] = f256mul(0x0d, a[0]) ^ f256mul(0x09, a[1]) ^ f256mul(0x0e, a[2]) ^ f256mul(0x0b, a[3]);
+    plain[4 * i + 3] = f256mul(0x0b, a[0]) ^ f256mul(0x0d, a[1]) ^ f256mul(0x09, a[2]) ^ f256mul(0x0e, a[3]);
   }
 }
 
+
 void AES_decrypt(unsigned char cipher[], unsigned char plain[], aeskey_t key) {
-  int i,j;
+  int i, j;
   unsigned char *w;
-  w=calloc(key->wLen, sizeof(unsigned char));
+  w = calloc(key->wLen, sizeof(unsigned char));
   KeyExpansion(key, w);
-  memcpy(plain, cipher, 16*sizeof(unsigned char));
-  for (i=0;i<16;i++) plain[i] ^=w[16*(key->Nr)+i];		       
+  memcpy(plain, cipher, 16 * sizeof(unsigned char));
+
+  // Last round
+  for (i = 0; i < 16; i++) plain[i] ^= w[16 * (key->Nr) + i];
   InvShiftRows(plain);
-  for(i=key->Nr-1;i>0;i--)  {
-    for (j=0;j<16;j++) plain[j] ^=w[16*i+j];
+
+  // Middle rounds
+  for (i = key->Nr - 1; i > 0; i--) {
+    // Unrolling the loop by 4
+    plain[0] ^= w[16 * i + 0];
+    plain[1] ^= w[16 * i + 1];
+    plain[2] ^= w[16 * i + 2];
+    plain[3] ^= w[16 * i + 3];
+
+    plain[4] ^= w[16 * i + 4];
+    plain[5] ^= w[16 * i + 5];
+    plain[6] ^= w[16 * i + 6];
+    plain[7] ^= w[16 * i + 7];
+
+    plain[8] ^= w[16 * i + 8];
+    plain[9] ^= w[16 * i + 9];
+    plain[10] ^= w[16 * i + 10];
+    plain[11] ^= w[16 * i + 11];
+
+    plain[12] ^= w[16 * i + 12];
+    plain[13] ^= w[16 * i + 13];
+    plain[14] ^= w[16 * i + 14];
+    plain[15] ^= w[16 * i + 15];
+
     InvMixColumns(plain);
     InvShiftRows(plain);
   }
-  for (j=0;j<16;j++) plain[j] ^=w[j];
+
+  // First round
+  for (j = 0; j < 16; j++) plain[j] ^= w[j];
+
+  free(w);
   return;
 }
