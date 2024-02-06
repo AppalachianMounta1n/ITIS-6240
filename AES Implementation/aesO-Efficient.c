@@ -408,7 +408,7 @@ static void InvShiftRows(unsigned char plain[]) {
 }
 
 static unsigned char f256times2(unsigned char a) {
-    return (a << 1) ^ (0x1B & ((signed char)a >> 7));
+  return (a << 1) ^ (0x1B & ((signed char)a >> 7));
 }
 
 static unsigned char f256mul(unsigned char b, unsigned char a) {
