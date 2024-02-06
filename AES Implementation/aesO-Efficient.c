@@ -111,8 +111,6 @@ void testEncryption(unsigned char msg[], unsigned char cipher[], aeskey_t key, u
   }
 }
 
-
-
 void testDecryption(unsigned char msg[], unsigned char cipher[], aeskey_t key, unsigned char decryptedmsg[], int numofT) {
   int i, failed = 0;
   clock_t start, finish;
@@ -140,8 +138,6 @@ void testDecryption(unsigned char msg[], unsigned char cipher[], aeskey_t key, u
     printf("%f seconds for %d times of AES-%d decryption\n", seconds, numofT, (key->keylen) * 8);
   }
 }
-
-
 
 static const unsigned char sbox[256] ={
   0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
@@ -181,7 +177,6 @@ static const unsigned char Invsbox[256] ={
   0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d
 };
 
-
 static const unsigned char Rcon[11] = {0x8d,0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1b,0x36};
 
 aeskey_t aeskey_init(unsigned short kappa) {
@@ -211,7 +206,6 @@ aeskey_t aeskey_init(unsigned short kappa) {
   out->key = (unsigned char *) calloc(kappa/8, sizeof(unsigned char));
   return out;
 }
-
 
 int KeyExpansion(aeskey_t key, unsigned char w[]) {
   unsigned short Nk = key->Nk;
@@ -276,8 +270,6 @@ int KeyExpansion(aeskey_t key, unsigned char w[]) {
   return 0;
 }
 
-
-
 static void SubBytes(unsigned char cipher[]) {
   // Unrolling the loop by 4
   cipher[0] = sbox[cipher[0]];
@@ -300,7 +292,6 @@ static void SubBytes(unsigned char cipher[]) {
   cipher[14] = sbox[cipher[14]];
   cipher[15] = sbox[cipher[15]];
 }
-
 
 static void ShiftRows(unsigned char cipher[]) {
   unsigned char temp;
@@ -341,8 +332,6 @@ static void MixColumns(unsigned char cipher[]) {
     cipher[4 * i + 3] = b[3] ^ a[2] ^ a[1] ^ b[0] ^ a[0];
   }     
 }
-
-
 
 void AES_encrypt(unsigned char plain[], unsigned char cipher[], aeskey_t key) {
   int i, k;
@@ -391,8 +380,6 @@ void AES_encrypt(unsigned char plain[], unsigned char cipher[], aeskey_t key) {
   }
 }
 
-
-
 static void InvShiftRows(unsigned char plain[]) {
   unsigned char tmp;
   plain[0]=Invsbox[plain[0]];
@@ -425,20 +412,18 @@ static unsigned char f256times2(unsigned char a) {
 }
 
 static unsigned char f256mul(unsigned char b, unsigned char a) {
-    switch (b) {
-        case 0x09:
-            return f256times2(f256times2(f256times2(a))) ^ a;
-        case 0x0B:
-            return f256times2(a ^ f256times2(f256times2(a))) ^ a;
-        case 0x0D:
-            return f256times2(f256times2(a ^ f256times2(a))) ^ a;
-        case 0x0E:
-            return f256times2(a ^ f256times2(a ^ f256times2(a)));
-    }
-    return '\0';
+  switch (b) {
+    case 0x09:
+      return f256times2(f256times2(f256times2(a))) ^ a;
+    case 0x0B:
+      return f256times2(a ^ f256times2(f256times2(a))) ^ a;
+    case 0x0D:
+      return f256times2(f256times2(a ^ f256times2(a))) ^ a;
+    case 0x0E:
+      return f256times2(a ^ f256times2(a ^ f256times2(a)));
+  }
+  return '\0';
 }
-
-
 
 static void InvMixColumns(unsigned char plain[]) {
   int i;
@@ -455,8 +440,6 @@ static void InvMixColumns(unsigned char plain[]) {
     plain[4 * i + 3] = f256mul(0x0b, a[0]) ^ f256mul(0x0d, a[1]) ^ f256mul(0x09, a[2]) ^ f256mul(0x0e, a[3]);
   }
 }
-
-
 
 void AES_decrypt(unsigned char cipher[], unsigned char plain[], aeskey_t key) {
   int i, j;
