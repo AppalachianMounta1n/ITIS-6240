@@ -421,22 +421,23 @@ static void InvShiftRows(unsigned char plain[]) {
 }
 
 static unsigned char f256times2(unsigned char a) {
-  return ((a<<1) ^ (0x1B & (unsigned char)((signed char) a >> 7)));
+    return (a << 1) ^ (0x1B & ((signed char)a >> 7));
 }
 
 static unsigned char f256mul(unsigned char b, unsigned char a) {
-  switch(b) {
-  case 0x09:
-    return f256times2(f256times2(f256times2(a))) ^ a;
-  case 0x0b:
-    return f256times2(a^f256times2(f256times2(a))) ^a;
-  case 0x0d:
-    return f256times2(f256times2(a^f256times2(a))) ^a;
-  case 0x0e:
-    return f256times2(a^f256times2(a^f256times2(a)));
-  }
-  return '\0';
+    switch (b) {
+        case 0x09:
+            return f256times2(f256times2(f256times2(a))) ^ a;
+        case 0x0B:
+            return f256times2(a ^ f256times2(f256times2(a))) ^ a;
+        case 0x0D:
+            return f256times2(f256times2(a ^ f256times2(a))) ^ a;
+        case 0x0E:
+            return f256times2(a ^ f256times2(a ^ f256times2(a)));
+    }
+    return '\0';
 }
+
 
 
 static void InvMixColumns(unsigned char plain[]) {
