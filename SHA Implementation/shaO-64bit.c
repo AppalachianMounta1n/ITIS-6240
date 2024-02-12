@@ -86,7 +86,7 @@ void sha_msg_pad0(unsigned int bitlen, unsigned char paddedmsg[]) {
 }
 
 void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
-  unsigned int bitlen = 8*size;
+  unsigned long long bitlen = 8LL * size; // Use 64-bit integer type for bit length
   hash[0] = 0x67452301;
   hash[1] = 0xEFCDAB89;
   hash[2] = 0x98BADCFE;
@@ -106,6 +106,7 @@ void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
     memcpy(msgTBH, &message[64*i], 64 * sizeof(unsigned char));
     sha1_process(hash, msgTBH);
   }
+
   if (R>55) {
     memcpy(msgTBH, msg, R * sizeof(unsigned char));
     msgTBH[R]=0x80;
@@ -117,7 +118,9 @@ void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
   } else {
     sha_msg_pad(msg, R, bitlen, paddedMessage);
   }
+  
   sha1_process(hash, paddedMessage);
+
   return;
 }
 
@@ -126,13 +129,17 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
   unsigned int W[80];
   unsigned int A, B, C, D, E, T;
   int i;
+
   for(i = 0; i < 16; i++) {
+    // Ensure 32-bit shifts and operations for 64-bit compatibility
     W[i] = (((unsigned) msg[i * 4]) << 24) +
       (((unsigned) msg[i * 4 + 1]) << 16) +
       (((unsigned) msg[i * 4 + 2]) << 8) +
       (((unsigned) msg[i * 4 + 3]));
   }
+
   for(i = 16; i < 80; i++) {
+    // Ensure 32-bit shifts and operations for 64-bit compatibility
     W[i] = W[i-3] ^ W[i-8] ^ W[i-14] ^ W[i-16];
     W[i] = ROTL(W[i],1);
   }
@@ -174,7 +181,6 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
     C = ROTL(B, 30);
     B = A;
     A = T;
-    /* printf("%d: %x %x %x %x %x\n",i, A, B, C, D, E); */
   }
 
   hash[0] +=  A;
@@ -186,7 +192,7 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
 }
 
 void sha256_md(unsigned char message[], int size, unsigned int hash[8]) {
-  unsigned int bitlen = 8*size;
+  unsigned long long bitlen = 8ULL * size; // Use 64-bit integer type for bit length
   hash[0] = 0x6A09E667;  
   hash[1] = 0xBB67AE85;
   hash[2] = 0x3C6EF372;  
@@ -313,7 +319,7 @@ void sha512_msg_pad0(unsigned int bitlen, unsigned char paddedmsg[]) {
 
 
 void sha512_md(unsigned char message[], int size, unsigned long hash[8]) {
-  unsigned int bitlen = 8*size;
+  unsigned long long bitlen = 8ULL * size; // Use 64-bit integer type for bit length
   hash[0] = 0x6a09e667f3bcc908;
   hash[1] = 0xbb67ae8584caa73b;
   hash[2] = 0x3c6ef372fe94f82b;
