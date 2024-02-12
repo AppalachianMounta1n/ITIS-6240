@@ -30,6 +30,12 @@ The base file [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects
 - [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO.c)
 - [shaO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO-Efficient.c)
 
+### Improvements
+- 
+
+### Resulting Improvements
+- 
+
 ***
 ## OpenSSL Project - Due 3/22/2024
 
