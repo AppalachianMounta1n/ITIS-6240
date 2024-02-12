@@ -13,6 +13,15 @@ The base file [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects
 - [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO.c)
 - [aesO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO%20-%20Efficient.c)
 
+### Improvements
+- The first improvement we made was unrolling as many loops as possible. By doing this, we removed the overhead of storing loop info and only had to run the code for the operations performed.
+- The second improvement we made was updating the encryption process to utilize the benefits of a 64-bit processor rather than only functioning at a 32-bit level. This allowed for a more efficient runtime do to having more memory and ability to run concurent processes.
+
+### Resulting Improvements
+- Encryption runtime was improved by a total of 35.36%
+- Decryption runtime was improved by a total of 3.45%
+- The overal runtime, including encryption and decryption, was improved by 10.01%
+
 ***
 ## SHA Implementation - Due 2/23/2024
 The base file [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO.c) was provided by the professor, Dr. Yongge Wang. The updated file [shaO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO-Efficient.c) is the project file where our code is being updated to optimize the performance of the original program.
