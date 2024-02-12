@@ -129,17 +129,13 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
   unsigned int W[80];
   unsigned int A, B, C, D, E, T;
   int i;
-
   for(i = 0; i < 16; i++) {
-    // Ensure 32-bit shifts and operations for 64-bit compatibility
     W[i] = (((unsigned) msg[i * 4]) << 24) +
       (((unsigned) msg[i * 4 + 1]) << 16) +
       (((unsigned) msg[i * 4 + 2]) << 8) +
       (((unsigned) msg[i * 4 + 3]));
   }
-
   for(i = 16; i < 80; i++) {
-    // Ensure 32-bit shifts and operations for 64-bit compatibility
     W[i] = W[i-3] ^ W[i-8] ^ W[i-14] ^ W[i-16];
     W[i] = ROTL(W[i],1);
   }
@@ -181,6 +177,7 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
     C = ROTL(B, 30);
     B = A;
     A = T;
+    /* printf("%d: %x %x %x %x %x\n",i, A, B, C, D, E); */
   }
 
   hash[0] +=  A;
