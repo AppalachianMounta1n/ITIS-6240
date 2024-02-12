@@ -1868,20 +1868,87 @@ void sha512_process(unsigned long hash[], unsigned char msg[]) {
     unsigned long W[80];
     unsigned long A, B, C, D, E, F, G, H, T1, T2;
 
-    for(i = 0; i < 16; i++) {
-        W[i] = (((unsigned long) msg[i * 8])<< 56) |
-        (((unsigned long) msg[i * 8 + 1]) << 48) |
-        (((unsigned long) msg[i * 8 + 2]) << 40) | 
-        (((unsigned long) msg[i * 8 + 3]) << 32) |
-        (((unsigned long) msg[i * 8 + 4]) << 24) |
-        (((unsigned long) msg[i * 8 + 5]) << 16) | 
-        (((unsigned long) msg[i * 8 + 6]) << 8)  |
-        (((unsigned long) msg[i * 8 + 7]));
-    }
+    W[0] = (((unsigned long) msg[0]) << 56) | (((unsigned long) msg[1]) << 48) | (((unsigned long) msg[2]) << 40) | (((unsigned long) msg[3]) << 32) | (((unsigned long) msg[4]) << 24) | (((unsigned long) msg[5]) << 16) | (((unsigned long) msg[6]) << 8) | (((unsigned long) msg[7]));
+    W[1] = (((unsigned long) msg[8]) << 56) | (((unsigned long) msg[9]) << 48) | (((unsigned long) msg[10]) << 40) | (((unsigned long) msg[11]) << 32) | (((unsigned long) msg[12]) << 24) | (((unsigned long) msg[13]) << 16) | (((unsigned long) msg[14]) << 8) | (((unsigned long) msg[15]));
+    W[2] = (((unsigned long) msg[16]) << 56) | (((unsigned long) msg[17]) << 48) | (((unsigned long) msg[18]) << 40) | (((unsigned long) msg[19]) << 32) | (((unsigned long) msg[20]) << 24) | (((unsigned long) msg[21]) << 16) | (((unsigned long) msg[22]) << 8) | (((unsigned long) msg[23]));
+    W[3] = (((unsigned long) msg[24]) << 56) | (((unsigned long) msg[25]) << 48) | (((unsigned long) msg[26]) << 40) | (((unsigned long) msg[27]) << 32) | (((unsigned long) msg[28]) << 24) | (((unsigned long) msg[29]) << 16) | (((unsigned long) msg[30]) << 8) | (((unsigned long) msg[31]));
+    W[4] = (((unsigned long) msg[32]) << 56) | (((unsigned long) msg[33]) << 48) | (((unsigned long) msg[34]) << 40) | (((unsigned long) msg[35]) << 32) | (((unsigned long) msg[36]) << 24) | (((unsigned long) msg[37]) << 16) | (((unsigned long) msg[38]) << 8) | (((unsigned long) msg[39]));
+    W[5] = (((unsigned long) msg[40]) << 56) | (((unsigned long) msg[41]) << 48) | (((unsigned long) msg[42]) << 40) | (((unsigned long) msg[43]) << 32) | (((unsigned long) msg[44]) << 24) | (((unsigned long) msg[45]) << 16) | (((unsigned long) msg[46]) << 8) | (((unsigned long) msg[47]));
+    W[6] = (((unsigned long) msg[48]) << 56) | (((unsigned long) msg[49]) << 48) | (((unsigned long) msg[50]) << 40) | (((unsigned long) msg[51]) << 32) | (((unsigned long) msg[52]) << 24) | (((unsigned long) msg[53]) << 16) | (((unsigned long) msg[54]) << 8) | (((unsigned long) msg[55]));
+    W[7] = (((unsigned long) msg[56]) << 56) | (((unsigned long) msg[57]) << 48) | (((unsigned long) msg[58]) << 40) | (((unsigned long) msg[59]) << 32) | (((unsigned long) msg[60]) << 24) | (((unsigned long) msg[61]) << 16) | (((unsigned long) msg[62]) << 8) | (((unsigned long) msg[63]));
+    W[8] = (((unsigned long) msg[64]) << 56) | (((unsigned long) msg[65]) << 48) | (((unsigned long) msg[66]) << 40) | (((unsigned long) msg[67]) << 32) | (((unsigned long) msg[68]) << 24) | (((unsigned long) msg[69]) << 16) | (((unsigned long) msg[70]) << 8) | (((unsigned long) msg[71]));
+    W[9] = (((unsigned long) msg[72]) << 56) | (((unsigned long) msg[73]) << 48) | (((unsigned long) msg[74]) << 40) | (((unsigned long) msg[75]) << 32) | (((unsigned long) msg[76]) << 24) | (((unsigned long) msg[77]) << 16) | (((unsigned long) msg[78]) << 8) | (((unsigned long) msg[79]));
+    W[10] = (((unsigned long) msg[80]) << 56) | (((unsigned long) msg[81]) << 48) | (((unsigned long) msg[82]) << 40) | (((unsigned long) msg[83]) << 32) | (((unsigned long) msg[84]) << 24) | (((unsigned long) msg[85]) << 16) | (((unsigned long) msg[86]) << 8) | (((unsigned long) msg[87]));
+    W[11] = (((unsigned long) msg[88]) << 56) | (((unsigned long) msg[89]) << 48) | (((unsigned long) msg[90]) << 40) | (((unsigned long) msg[91]) << 32) | (((unsigned long) msg[92]) << 24) | (((unsigned long) msg[93]) << 16) | (((unsigned long) msg[94]) << 8) | (((unsigned long) msg[95]));
+    W[12] = (((unsigned long) msg[96]) << 56) | (((unsigned long) msg[97]) << 48) | (((unsigned long) msg[98]) << 40) | (((unsigned long) msg[99]) << 32) | (((unsigned long) msg[100]) << 24) | (((unsigned long) msg[101]) << 16) | (((unsigned long) msg[102]) << 8) | (((unsigned long) msg[103]));
+    W[13] = (((unsigned long) msg[104]) << 56) | (((unsigned long) msg[105]) << 48) | (((unsigned long) msg[106]) << 40) | (((unsigned long) msg[107]) << 32) | (((unsigned long) msg[108]) << 24) | (((unsigned long) msg[109]) << 16) | (((unsigned long) msg[110]) << 8) | (((unsigned long) msg[111]));
+    W[14] = (((unsigned long) msg[112]) << 56) | (((unsigned long) msg[113]) << 48) | (((unsigned long) msg[114]) << 40) | (((unsigned long) msg[115]) << 32) | (((unsigned long) msg[116]) << 24) | (((unsigned long) msg[117]) << 16) | (((unsigned long) msg[118]) << 8) | (((unsigned long) msg[119]));
+    W[15] = (((unsigned long) msg[120]) << 56) | (((unsigned long) msg[121]) << 48) | (((unsigned long) msg[122]) << 40) | (((unsigned long) msg[123]) << 32) | (((unsigned long) msg[124]) << 24) | (((unsigned long) msg[125]) << 16) | (((unsigned long) msg[126]) << 8) | (((unsigned long) msg[127]));
 
-    for(i = 16; i < 80; i++) {
-        W[i] = sigma5121(W[i-2])+W[i-7]+sigma5120(W[i-15])+ W[i-16];
-    }
+    W[16] = sigma5121(W[14]) + W[9] + sigma5120(W[1]) + W[0];
+    W[17] = sigma5121(W[15]) + W[10] + sigma5120(W[2]) + W[1];
+    W[18] = sigma5121(W[16]) + W[11] + sigma5120(W[3]) + W[2];
+    W[19] = sigma5121(W[17]) + W[12] + sigma5120(W[4]) + W[3];
+    W[20] = sigma5121(W[18]) + W[13] + sigma5120(W[5]) + W[4];
+    W[21] = sigma5121(W[19]) + W[14] + sigma5120(W[6]) + W[5];
+    W[22] = sigma5121(W[20]) + W[15] + sigma5120(W[7]) + W[6];
+    W[23] = sigma5121(W[21]) + W[16] + sigma5120(W[8]) + W[7];
+    W[24] = sigma5121(W[22]) + W[17] + sigma5120(W[9]) + W[8];
+    W[25] = sigma5121(W[23]) + W[18] + sigma5120(W[10]) + W[9];
+    W[26] = sigma5121(W[24]) + W[19] + sigma5120(W[11]) + W[10];
+    W[27] = sigma5121(W[25]) + W[20] + sigma5120(W[12]) + W[11];
+    W[28] = sigma5121(W[26]) + W[21] + sigma5120(W[13]) + W[12];
+    W[29] = sigma5121(W[27]) + W[22] + sigma5120(W[14]) + W[13];
+    W[30] = sigma5121(W[28]) + W[23] + sigma5120(W[15]) + W[14];
+    W[31] = sigma5121(W[29]) + W[24] + sigma5120(W[16]) + W[15];
+    W[32] = sigma5121(W[30]) + W[25] + sigma5120(W[17]) + W[16];
+    W[33] = sigma5121(W[31]) + W[26] + sigma5120(W[18]) + W[17];
+    W[34] = sigma5121(W[32]) + W[27] + sigma5120(W[19]) + W[18];
+    W[35] = sigma5121(W[33]) + W[28] + sigma5120(W[20]) + W[19];
+    W[36] = sigma5121(W[34]) + W[29] + sigma5120(W[21]) + W[20];
+    W[37] = sigma5121(W[35]) + W[30] + sigma5120(W[22]) + W[21];
+    W[38] = sigma5121(W[36]) + W[31] + sigma5120(W[23]) + W[22];
+    W[39] = sigma5121(W[37]) + W[32] + sigma5120(W[24]) + W[23];
+    W[40] = sigma5121(W[38]) + W[33] + sigma5120(W[25]) + W[24];
+    W[41] = sigma5121(W[39]) + W[34] + sigma5120(W[26]) + W[25];
+    W[42] = sigma5121(W[40]) + W[35] + sigma5120(W[27]) + W[26];
+    W[43] = sigma5121(W[41]) + W[36] + sigma5120(W[28]) + W[27];
+    W[44] = sigma5121(W[42]) + W[37] + sigma5120(W[29]) + W[28];
+    W[45] = sigma5121(W[43]) + W[38] + sigma5120(W[30]) + W[29];
+    W[46] = sigma5121(W[44]) + W[39] + sigma5120(W[31]) + W[30];
+    W[47] = sigma5121(W[45]) + W[40] + sigma5120(W[32]) + W[31];
+    W[48] = sigma5121(W[46]) + W[41] + sigma5120(W[33]) + W[32];
+    W[49] = sigma5121(W[47]) + W[42] + sigma5120(W[34]) + W[33];
+    W[50] = sigma5121(W[48]) + W[43] + sigma5120(W[35]) + W[34];
+    W[51] = sigma5121(W[49]) + W[44] + sigma5120(W[36]) + W[35];
+    W[52] = sigma5121(W[50]) + W[45] + sigma5120(W[37]) + W[36];
+    W[53] = sigma5121(W[51]) + W[46] + sigma5120(W[38]) + W[37];
+    W[54] = sigma5121(W[52]) + W[47] + sigma5120(W[39]) + W[38];
+    W[55] = sigma5121(W[53]) + W[48] + sigma5120(W[40]) + W[39];
+    W[56] = sigma5121(W[54]) + W[49] + sigma5120(W[41]) + W[40];
+    W[57] = sigma5121(W[55]) + W[50] + sigma5120(W[42]) + W[41];
+    W[58] = sigma5121(W[56]) + W[51] + sigma5120(W[43]) + W[42];
+    W[59] = sigma5121(W[57]) + W[52] + sigma5120(W[44]) + W[43];
+    W[60] = sigma5121(W[58]) + W[53] + sigma5120(W[45]) + W[44];
+    W[61] = sigma5121(W[59]) + W[54] + sigma5120(W[46]) + W[45];
+    W[62] = sigma5121(W[60]) + W[55] + sigma5120(W[47]) + W[46];
+    W[63] = sigma5121(W[61]) + W[56] + sigma5120(W[48]) + W[47];
+    W[64] = sigma5121(W[62]) + W[57] + sigma5120(W[49]) + W[48];
+    W[65] = sigma5121(W[63]) + W[58] + sigma5120(W[50]) + W[49];
+    W[66] = sigma5121(W[64]) + W[59] + sigma5120(W[51]) + W[50];
+    W[67] = sigma5121(W[65]) + W[60] + sigma5120(W[52]) + W[51];
+    W[68] = sigma5121(W[66]) + W[61] + sigma5120(W[53]) + W[52];
+    W[69] = sigma5121(W[67]) + W[62] + sigma5120(W[54]) + W[53];
+    W[70] = sigma5121(W[68]) + W[63] + sigma5120(W[55]) + W[54];
+    W[71] = sigma5121(W[69]) + W[64] + sigma5120(W[56]) + W[55];
+    W[72] = sigma5121(W[70]) + W[65] + sigma5120(W[57]) + W[56];
+    W[73] = sigma5121(W[71]) + W[66] + sigma5120(W[58]) + W[57];
+    W[74] = sigma5121(W[72]) + W[67] + sigma5120(W[59]) + W[58];
+    W[75] = sigma5121(W[73]) + W[68] + sigma5120(W[60]) + W[59];
+    W[76] = sigma5121(W[74]) + W[69] + sigma5120(W[61]) + W[60];
+    W[77] = sigma5121(W[75]) + W[70] + sigma5120(W[62]) + W[61];
+    W[78] = sigma5121(W[76]) + W[71] + sigma5120(W[63]) + W[62];
+    W[79] = sigma5121(W[77]) + W[72] + sigma5120(W[64]) + W[63];
 
     A = hash[0];
     B = hash[1];
@@ -1892,19 +1959,886 @@ void sha512_process(unsigned long hash[], unsigned char msg[]) {
     G = hash[6];
     H = hash[7];
 
-    for (i = 0; i < 80; ++i) {
-        T1 = H + Sigma5121(E) + CH(E,F,G) + K[i] + W[i];
-        T2 = Sigma5120(A) + MAJ(A,B,C);
-        H = G;
-        G = F;
-        F = E;
-        E = D + T1;
-        D = C;
-        C = B;
-        B = A;
-        A = T1 + T2;
-    }
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[0] + W[0];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[1] + W[1];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[2] + W[2];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[3] + W[3];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[4] + W[4];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[5] + W[5];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[6] + W[6];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[7] + W[7];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[8] + W[8];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[9] + W[9];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[10] + W[10];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[11] + W[11];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[12] + W[12];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[13] + W[13];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[14] + W[14];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[15] + W[15];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[16] + W[16];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[17] + W[17];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[18] + W[18];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[19] + W[19];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[20] + W[20];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[21] + W[21];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[22] + W[22];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[23] + W[23];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[24] + W[24];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[25] + W[25];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[26] + W[26];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[27] + W[27];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[28] + W[28];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[29] + W[29];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
     
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[30] + W[30];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[31] + W[31];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[32] + W[32];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[33] + W[33];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[34] + W[34];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[35] + W[35];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[36] + W[36];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[37] + W[37];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[38] + W[38];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[39] + W[39];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[40] + W[40];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[41] + W[41];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[42] + W[42];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[43] + W[43];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[44] + W[44];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[45] + W[45];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[46] + W[46];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[47] + W[47];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[48] + W[48];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[49] + W[49];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[50] + W[50];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[51] + W[51];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[52] + W[52];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[53] + W[53];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[54] + W[54];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[55] + W[55];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[56] + W[56];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[57] + W[57];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[58] + W[58];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[59] + W[59];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[60] + W[60];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[61] + W[61];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[62] + W[62];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[63] + W[63];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[64] + W[64];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[65] + W[65];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[66] + W[66];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[67] + W[67];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[68] + W[68];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[69] + W[69];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[70] + W[70];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[71] + W[71];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[72] + W[72];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[73] + W[73];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[74] + W[74];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[75] + W[75];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[76] + W[76];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[77] + W[77];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[78] + W[78];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
+    T1 = H + Sigma5121(E) + CH(E,F,G) + K[79] + W[79];
+    T2 = Sigma5120(A) + MAJ(A,B,C);
+    H = G;
+    G = F;
+    F = E;
+    E = D + T1;
+    D = C;
+    C = B;
+    B = A;
+    A = T1 + T2;
+
     hash[0] +=A;
     hash[1] +=B;
     hash[2] +=C;
@@ -1926,18 +2860,23 @@ int testSHA(int shatype, int numT){
   clock_t start, finish;
   double seconds;
   static unsigned char msg4[1000000];
+
   for (i=0; i<1000000; i++)  msg4[i]='a';
   size=1000000;
   
   if (shatype==1) {
     sha1_md(msg4, size, hash1);
+
     if ((hash1[0] !=0x34aa973c)||(hash1[1]!=0xd4c4daa4)||(hash1[2]!=0xf61eeb2b)
 	||(hash1[3]!=0xdbad2731)||(hash1[4]!=0x6534016f)) {
       printf("SHA-1 failed\n");
+
       return 1;
     } else {
       start = clock();
+
       for (i=0;i<numT;i++) sha1_md(msg4, size, hash1);
+
       finish = clock();
       seconds = ((double)(finish - start))/CLOCKS_PER_SEC;
       printf("%f seconds for %d times of SHA-1\n",seconds,numT);
@@ -1946,14 +2885,18 @@ int testSHA(int shatype, int numT){
   
   if (shatype==2) {
     sha256_md(msg4, size,hash2);
+
     if ((hash2[0] != 0xcdc76e5c)||(hash2[1]!=0x9914fb92)||(hash2[2]!=0x81a1c7e2)
       ||(hash2[3]!=0x84d73e67)||(hash2[4]!=0xf1809a48)||(hash2[5]!=0xa497200e)
 	||(hash2[6]!=0x046d39cc)||(hash2[7]!=0xc7112cd0)) {
       printf("SHA-1 failed\n");
+
       return 1;
     } else {
       start = clock();
+
       for (i=0;i<numT;i++) sha256_md(msg4, size,hash2);
+
       finish = clock();
       seconds = ((double)(finish - start))/CLOCKS_PER_SEC;
       printf("%f seconds for %d times of SHA-256\n",seconds,numT);
@@ -1962,14 +2905,18 @@ int testSHA(int shatype, int numT){
   
   if (shatype==3) {
     sha512_md(msg4, size,hash3);
+
     if ((hash3[0] != 0xe718483d0ce76964)||(hash3[1]!=0x4e2e42c7bc15b463)||(hash3[2]!=0x8e1f98b13b204428)
       ||(hash3[3]!=0x5632a803afa973eb)||(hash3[4]!=0xde0ff244877ea60a)||(hash3[5]!=0x4cb0432ce577c31b)
 	||(hash3[6]!=0xeb009c5c2c49aa2e)||(hash3[7]!=0x4eadb217ad8cc09b)) {
       printf("SHA-1 failed\n");
+
       return 1;
     } else {
       start = clock();
+
       for (i=0;i<numT;i++) sha512_md(msg4, size,hash3);
+
       finish = clock();
       seconds = ((double)(finish - start))/CLOCKS_PER_SEC;
       printf("%f seconds for %d times of SHA-512\n",seconds,numT);
