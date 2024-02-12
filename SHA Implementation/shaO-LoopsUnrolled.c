@@ -59,6 +59,7 @@ int main (int argc, char *argv[]) {
 void sha_msg_pad(unsigned char message[], int size, unsigned int bitlen,
 		 unsigned char paddedmsg[]) {
     int i;
+    
     for (i=0; i<size; i++) {
         paddedmsg[i]=message[i];
     }
