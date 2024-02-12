@@ -15,7 +15,11 @@ The base file [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects
 
 ***
 ## SHA Implementation - Due 2/23/2024
+The base file [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO.c) was provided by the professor, Dr. Yongge Wang. The updated file [shaO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO-Efficient.c) is the project file where our code is being updated to optimize the performance of the original program.
 
+### Relevant Files
+- [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO.c)
+- [shaO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO-Efficient.c)
 
 ***
 ## OpenSSL Project - Due 3/22/2024
