@@ -20,6 +20,7 @@ Worked on by Lily Gross, Ryan Braswell, and Reed Holz for ITIS 6240 in Spring 20
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdint.h>
 
 typedef struct AESkey {
   unsigned short Nk;
@@ -334,50 +335,25 @@ static void MixColumns(unsigned char cipher[]) {
 }
 
 void AES_encrypt(unsigned char plain[], unsigned char cipher[], aeskey_t key) {
-  int i, k;
-  unsigned char w[key->wLen];
-  KeyExpansion(key, w);
-  memcpy(cipher, plain, 16 * sizeof(unsigned char));
-
-  // First round
-  for (i = 0; i < 16; i++) cipher[i] ^= w[i];
-
-  // Middle rounds
-  for (k = 1; k < key->Nr; k++) {
+  int i,j,k;
+  // Change w to uint64_t pointer and allocate memory accordingly
+  uint64_t *w = (uint64_t *)malloc(key->wLen * sizeof(uint64_t));
+  KeyExpansion(key, (unsigned char *)w);
+  memcpy(cipher, plain, 16*sizeof(unsigned char));
+  // Change the loop to operate on 64-bit data instead of 8-bit data
+  for (i=0;i<2;i++) ((uint64_t *)cipher)[i] ^= w[i];
+  for (k=1; k<key->Nr; k++) {
     SubBytes(cipher);
     ShiftRows(cipher);
     MixColumns(cipher);
-
-    // Unrolling the loop by 4
-    cipher[0] ^= w[16 * k + 0];
-    cipher[1] ^= w[16 * k + 1];
-    cipher[2] ^= w[16 * k + 2];
-    cipher[3] ^= w[16 * k + 3];
-    cipher[4] ^= w[16 * k + 4];
-    cipher[5] ^= w[16 * k + 5];
-    cipher[6] ^= w[16 * k + 6];
-    cipher[7] ^= w[16 * k + 7];
-    cipher[8] ^= w[16 * k + 8];
-    cipher[9] ^= w[16 * k + 9];
-    cipher[10] ^= w[16 * k + 10];
-    cipher[11] ^= w[16 * k + 11];
-    cipher[12] ^= w[16 * k + 12];
-    cipher[13] ^= w[16 * k + 13];
-    cipher[14] ^= w[16 * k + 14];
-    cipher[15] ^= w[16 * k + 15];
+    // Change the loop to operate on 64-bit data instead of 8-bit data
+    for (j=0;j<2;j++) ((uint64_t *)cipher)[j] ^= w[2*k+j];
   }
-
-  // Last round
   SubBytes(cipher);
   ShiftRows(cipher);
-
-  // Unrolling the loop by 4
-  for (i = 0; i < 16; i += 4) {
-    cipher[i] ^= w[16 * (key->Nr) + i];
-    cipher[i + 1] ^= w[16 * (key->Nr) + i + 1];
-    cipher[i + 2] ^= w[16 * (key->Nr) + i + 2];
-    cipher[i + 3] ^= w[16 * (key->Nr) + i + 3];
-  }
+  // Change the loop to operate on 64-bit data instead of 8-bit data
+  for (i=0;i<2; i++) ((uint64_t *)cipher)[i] ^= w[2*(key->Nr)+i];
+  free(w); // Free the allocated memory
 }
 
 static void InvShiftRows(unsigned char plain[]) {
