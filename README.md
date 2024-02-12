@@ -14,7 +14,7 @@ The base file [aesO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects
 - [aesO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/AES%20Implementation/aesO%20-%20Efficient.c)
 
 ### Changes
-- The first improvement we made was unrolling as many loops as possible. By doing this, we removed the overhead of storing loop info and only had to run the code for the operations performed.
+- The first improvement we made was unrolling as many loops as possible. By doing this, we removed the overhead of storing loop info and only had to run the code for the operations performed. While this is not ideal for code readability, it is able to provide small performance boosts to the runtime if done on a large enough scale.
 - The second improvement we made was updating the encryption process to utilize the benefits of a 64-bit processor rather than only functioning at a 32-bit level. This allowed for a more efficient runtime do to having more memory and ability to run concurent processes.
 
 ### Resulting Runtime Improvements

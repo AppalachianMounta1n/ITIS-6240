@@ -58,31 +58,99 @@ int main (int argc, char *argv[]) {
 
 void sha_msg_pad(unsigned char message[], int size, unsigned int bitlen,
 		 unsigned char paddedmsg[]) {
-  int i;
-  for (i=0; i<size; i++) {
-    paddedmsg[i]=message[i];
-  }
-  paddedmsg[size]= 0x80;
-  for (i=size+1; i<64; i++) {
-    paddedmsg[i]=0x00;
-  }
-  paddedmsg[63] = bitlen;
-  paddedmsg[62] = bitlen >> 8;
-  paddedmsg[61] = bitlen >> 16;
-  paddedmsg[60] = bitlen >> 24;
-  return;
+    int i;
+    for (i=0; i<size; i++) {
+        paddedmsg[i]=message[i];
+    }
+
+    paddedmsg[size]= 0x80;
+
+    for (i=size+1; i<64; i++) {
+        paddedmsg[i]=0x00;
+    }
+
+    paddedmsg[63] = bitlen;
+    paddedmsg[62] = bitlen >> 8;
+    paddedmsg[61] = bitlen >> 16;
+    paddedmsg[60] = bitlen >> 24;
+    
+    return;
 }
 
 void sha_msg_pad0(unsigned int bitlen, unsigned char paddedmsg[]) {
-  int i;
-  for (i=0; i<64; i++) {
-    paddedmsg[i]=0x00;
-  }
-  paddedmsg[63] = bitlen;
-  paddedmsg[62] = bitlen >> 8;
-  paddedmsg[61] = bitlen >> 16;
-  paddedmsg[60] = bitlen >> 24;
-  return;
+    int i;
+
+    paddedmsg[0]=0x00;
+    paddedmsg[1]=0x00;
+    paddedmsg[2]=0x00;
+    paddedmsg[3]=0x00;
+    paddedmsg[4]=0x00;
+    paddedmsg[5]=0x00;
+    paddedmsg[6]=0x00;
+    paddedmsg[7]=0x00;
+    paddedmsg[8]=0x00;
+    paddedmsg[9]=0x00;
+    paddedmsg[10]=0x00;
+    paddedmsg[11]=0x00;
+    paddedmsg[12]=0x00;
+    paddedmsg[13]=0x00;
+    paddedmsg[14]=0x00;
+    paddedmsg[15]=0x00;
+    paddedmsg[16]=0x00;
+    paddedmsg[17]=0x00;
+    paddedmsg[18]=0x00;
+    paddedmsg[19]=0x00;
+    paddedmsg[20]=0x00;
+    paddedmsg[21]=0x00;
+    paddedmsg[22]=0x00;
+    paddedmsg[23]=0x00;
+    paddedmsg[24]=0x00;
+    paddedmsg[25]=0x00;
+    paddedmsg[26]=0x00;
+    paddedmsg[27]=0x00;
+    paddedmsg[28]=0x00;
+    paddedmsg[29]=0x00;
+    paddedmsg[30]=0x00;
+    paddedmsg[31]=0x00;
+    paddedmsg[32]=0x00;
+    paddedmsg[33]=0x00;
+    paddedmsg[34]=0x00;
+    paddedmsg[35]=0x00;
+    paddedmsg[36]=0x00;
+    paddedmsg[37]=0x00;
+    paddedmsg[38]=0x00;
+    paddedmsg[39]=0x00;
+    paddedmsg[40]=0x00;
+    paddedmsg[41]=0x00;
+    paddedmsg[42]=0x00;
+    paddedmsg[43]=0x00;
+    paddedmsg[44]=0x00;
+    paddedmsg[45]=0x00;
+    paddedmsg[46]=0x00;
+    paddedmsg[47]=0x00;
+    paddedmsg[48]=0x00;
+    paddedmsg[49]=0x00;
+    paddedmsg[50]=0x00;
+    paddedmsg[51]=0x00;
+    paddedmsg[52]=0x00;
+    paddedmsg[53]=0x00;
+    paddedmsg[54]=0x00;
+    paddedmsg[55]=0x00;
+    paddedmsg[56]=0x00;
+    paddedmsg[57]=0x00;
+    paddedmsg[58]=0x00;
+    paddedmsg[59]=0x00;
+    paddedmsg[60]=0x00;
+    paddedmsg[61]=0x00;
+    paddedmsg[62]=0x00;
+    paddedmsg[63]=0x00;
+
+    paddedmsg[63] = bitlen;
+    paddedmsg[62] = bitlen >> 8;
+    paddedmsg[61] = bitlen >> 16;
+    paddedmsg[60] = bitlen >> 24;
+
+    return;
 }
 
 void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
@@ -106,6 +174,7 @@ void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
     memcpy(msgTBH, &message[64*i], 64 * sizeof(unsigned char));
     sha1_process(hash, msgTBH);
   }
+
   if (R>55) {
     memcpy(msgTBH, msg, R * sizeof(unsigned char));
     msgTBH[R]=0x80;
@@ -117,72 +186,674 @@ void sha1_md(unsigned char message[], int size, unsigned int hash[5]) {
   } else {
     sha_msg_pad(msg, R, bitlen, paddedMessage);
   }
+  
   sha1_process(hash, paddedMessage);
+
   return;
 }
 
 void sha1_process(unsigned int hash[], unsigned char msg[]) {
-  const unsigned int K[4] = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
-  unsigned int W[80];
-  unsigned int A, B, C, D, E, T;
-  int i;
-  for(i = 0; i < 16; i++) {
-    W[i] = (((unsigned) msg[i * 4]) << 24) +
-      (((unsigned) msg[i * 4 + 1]) << 16) +
-      (((unsigned) msg[i * 4 + 2]) << 8) +
-      (((unsigned) msg[i * 4 + 3]));
-  }
-  for(i = 16; i < 80; i++) {
-    W[i] = W[i-3] ^ W[i-8] ^ W[i-14] ^ W[i-16];
-    W[i] = ROTL(W[i],1);
-  }
+    const unsigned int K[4] = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
+    unsigned int W[80];
+    unsigned int A, B, C, D, E, T;
+    int i;
 
-  A = hash[0];
-  B = hash[1];
-  C = hash[2];
-  D = hash[3];
-  E = hash[4];
+    W[0] = (((unsigned) msg[0]) << 24) + (((unsigned) msg[1]) << 16) + (((unsigned) msg[2]) << 8) + (((unsigned) msg[3]));
+    W[1] = (((unsigned) msg[4]) << 24) + (((unsigned) msg[5]) << 16) + (((unsigned) msg[6]) << 8) + (((unsigned) msg[7]));
+    W[2] = (((unsigned) msg[8]) << 24) + (((unsigned) msg[9]) << 16) + (((unsigned) msg[10]) << 8) + (((unsigned) msg[11]));
+    W[3] = (((unsigned) msg[12]) << 24) + (((unsigned) msg[13]) << 16) + (((unsigned) msg[14]) << 8) + (((unsigned) msg[15]));
+    W[4] = (((unsigned) msg[16]) << 24) + (((unsigned) msg[17]) << 16) + (((unsigned) msg[18]) << 8) + (((unsigned) msg[19]));
+    W[5] = (((unsigned) msg[20]) << 24) + (((unsigned) msg[21]) << 16) + (((unsigned) msg[22]) << 8) + (((unsigned) msg[23]));
+    W[6] = (((unsigned) msg[24]) << 24) + (((unsigned) msg[25]) << 16) + (((unsigned) msg[26]) << 8) + (((unsigned) msg[27]));
+    W[7] = (((unsigned) msg[28]) << 24) + (((unsigned) msg[29]) << 16) + (((unsigned) msg[30]) << 8) + (((unsigned) msg[31]));
+    W[8] = (((unsigned) msg[32]) << 24) + (((unsigned) msg[33]) << 16) + (((unsigned) msg[34]) << 8) + (((unsigned) msg[35]));
+    W[9] = (((unsigned) msg[36]) << 24) + (((unsigned) msg[37]) << 16) + (((unsigned) msg[38]) << 8) + (((unsigned) msg[39]));
+    W[10] = (((unsigned) msg[40]) << 24) + (((unsigned) msg[41]) << 16) + (((unsigned) msg[42]) << 8) + (((unsigned) msg[43]));
+    W[11] = (((unsigned) msg[44]) << 24) + (((unsigned) msg[45]) << 16) + (((unsigned) msg[46]) << 8) + (((unsigned) msg[47]));
+    W[12] = (((unsigned) msg[48]) << 24) + (((unsigned) msg[49]) << 16) + (((unsigned) msg[50]) << 8) + (((unsigned) msg[51]));
+    W[13] = (((unsigned) msg[52]) << 24) + (((unsigned) msg[53]) << 16) + (((unsigned) msg[54]) << 8) + (((unsigned) msg[55]));
+    W[14] = (((unsigned) msg[56]) << 24) + (((unsigned) msg[57]) << 16) + (((unsigned) msg[58]) << 8) + (((unsigned) msg[59]));
+    W[15] = (((unsigned) msg[60]) << 24) + (((unsigned) msg[61]) << 16) + (((unsigned) msg[62]) << 8) + (((unsigned) msg[63]));
 
-  for(i = 0; i < 20; i++) {
-    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[i] + K[0];
-    E = D;
-    D = C;
-    C = ROTL(B, 30);
-    B = A;
-    A = T;
-  }
-  for(i = 20; i < 40; i++) {
-    T = ROTL(A,5) + (B^C^D) + E + W[i] + K[1];
-    E = D;
-    D = C;
-    C = ROTL(B, 30);
-    B = A;
-    A = T;
-  }
-  for(i = 40; i < 60; i++) {
-    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[i] + K[2];
-    E = D;
-    D = C;
-    C = ROTL(B, 30);
-    B = A;
-    A = T;
-  }
-  for(i = 60; i < 80; i++) {
-    T = ROTL(A,5) + (B ^ C ^ D) + E + W[i] + K[3];
-    E = D;
-    D = C;
-    C = ROTL(B, 30);
-    B = A;
-    A = T;
-    /* printf("%d: %x %x %x %x %x\n",i, A, B, C, D, E); */
-  }
 
-  hash[0] +=  A;
-  hash[1] +=  B;
-  hash[2] +=  C;
-  hash[3] +=  D;
-  hash[4] +=  E;
-  return;
+    W[16] = ROTL((W[16-3] ^ W[16-8] ^ W[16-14] ^ W[16-16]), 1);
+    W[17] = ROTL((W[17-3] ^ W[17-8] ^ W[17-14] ^ W[17-16]), 1);
+    W[18] = ROTL((W[18-3] ^ W[18-8] ^ W[18-14] ^ W[18-16]), 1);
+    W[19] = ROTL((W[19-3] ^ W[19-8] ^ W[19-14] ^ W[19-16]), 1);
+    W[20] = ROTL((W[20-3] ^ W[20-8] ^ W[20-14] ^ W[20-16]), 1);
+    W[21] = ROTL((W[21-3] ^ W[21-8] ^ W[21-14] ^ W[21-16]), 1);
+    W[22] = ROTL((W[22-3] ^ W[22-8] ^ W[22-14] ^ W[22-16]), 1);
+    W[23] = ROTL((W[23-3] ^ W[23-8] ^ W[23-14] ^ W[23-16]), 1);
+    W[24] = ROTL((W[24-3] ^ W[24-8] ^ W[24-14] ^ W[24-16]), 1);
+    W[25] = ROTL((W[25-3] ^ W[25-8] ^ W[25-14] ^ W[25-16]), 1);
+    W[26] = ROTL((W[26-3] ^ W[26-8] ^ W[26-14] ^ W[26-16]), 1);
+    W[27] = ROTL((W[27-3] ^ W[27-8] ^ W[27-14] ^ W[27-16]), 1);
+    W[28] = ROTL((W[28-3] ^ W[28-8] ^ W[28-14] ^ W[28-16]), 1);
+    W[29] = ROTL((W[29-3] ^ W[29-8] ^ W[29-14] ^ W[29-16]), 1);
+    W[30] = ROTL((W[30-3] ^ W[30-8] ^ W[30-14] ^ W[30-16]), 1);
+    W[31] = ROTL((W[31-3] ^ W[31-8] ^ W[31-14] ^ W[31-16]), 1);
+    W[32] = ROTL((W[32-3] ^ W[32-8] ^ W[32-14] ^ W[32-16]), 1);
+    W[33] = ROTL((W[33-3] ^ W[33-8] ^ W[33-14] ^ W[33-16]), 1);
+    W[34] = ROTL((W[34-3] ^ W[34-8] ^ W[34-14] ^ W[34-16]), 1);
+    W[35] = ROTL((W[35-3] ^ W[35-8] ^ W[35-14] ^ W[35-16]), 1);
+    W[36] = ROTL((W[36-3] ^ W[36-8] ^ W[36-14] ^ W[36-16]), 1);
+    W[37] = ROTL((W[37-3] ^ W[37-8] ^ W[37-14] ^ W[37-16]), 1);
+    W[38] = ROTL((W[38-3] ^ W[38-8] ^ W[38-14] ^ W[38-16]), 1);
+    W[39] = ROTL((W[39-3] ^ W[39-8] ^ W[39-14] ^ W[39-16]), 1);
+    W[40] = ROTL((W[40-3] ^ W[40-8] ^ W[40-14] ^ W[40-16]), 1);
+    W[41] = ROTL((W[41-3] ^ W[41-8] ^ W[41-14] ^ W[41-16]), 1);
+    W[42] = ROTL((W[42-3] ^ W[42-8] ^ W[42-14] ^ W[42-16]), 1);
+    W[43] = ROTL((W[43-3] ^ W[43-8] ^ W[43-14] ^ W[43-16]), 1);
+    W[44] = ROTL((W[44-3] ^ W[44-8] ^ W[44-14] ^ W[44-16]), 1);
+    W[45] = ROTL((W[45-3] ^ W[45-8] ^ W[45-14] ^ W[45-16]), 1);
+    W[46] = ROTL((W[46-3] ^ W[46-8] ^ W[46-14] ^ W[46-16]), 1);
+    W[47] = ROTL((W[47-3] ^ W[47-8] ^ W[47-14] ^ W[47-16]), 1);
+    W[48] = ROTL((W[48-3] ^ W[48-8] ^ W[48-14] ^ W[48-16]), 1);
+    W[49] = ROTL((W[49-3] ^ W[49-8] ^ W[49-14] ^ W[49-16]), 1);
+    W[50] = ROTL((W[50-3] ^ W[50-8] ^ W[50-14] ^ W[50-16]), 1);
+    W[51] = ROTL((W[51-3] ^ W[51-8] ^ W[51-14] ^ W[51-16]), 1);
+    W[52] = ROTL((W[52-3] ^ W[52-8] ^ W[52-14] ^ W[52-16]), 1);
+    W[53] = ROTL((W[53-3] ^ W[53-8] ^ W[53-14] ^ W[53-16]), 1);
+    W[54] = ROTL((W[54-3] ^ W[54-8] ^ W[54-14] ^ W[54-16]), 1);
+    W[55] = ROTL((W[55-3] ^ W[55-8] ^ W[55-14] ^ W[55-16]), 1);
+    W[56] = ROTL((W[56-3] ^ W[56-8] ^ W[56-14] ^ W[56-16]), 1);
+    W[57] = ROTL((W[57-3] ^ W[57-8] ^ W[57-14] ^ W[57-16]), 1);
+    W[58] = ROTL((W[58-3] ^ W[58-8] ^ W[58-14] ^ W[58-16]), 1);
+    W[59] = ROTL((W[59-3] ^ W[59-8] ^ W[59-14] ^ W[59-16]), 1);
+    W[60] = ROTL((W[60-3] ^ W[60-8] ^ W[60-14] ^ W[60-16]), 1);
+    W[61] = ROTL((W[61-3] ^ W[61-8] ^ W[61-14] ^ W[61-16]), 1);
+    W[62] = ROTL((W[62-3] ^ W[62-8] ^ W[62-14] ^ W[62-16]), 1);
+    W[63] = ROTL((W[63-3] ^ W[63-8] ^ W[63-14] ^ W[63-16]), 1);
+    W[64] = ROTL((W[64-3] ^ W[64-8] ^ W[64-14] ^ W[64-16]), 1);
+    W[65] = ROTL((W[65-3] ^ W[65-8] ^ W[65-14] ^ W[65-16]), 1);
+    W[66] = ROTL((W[66-3] ^ W[66-8] ^ W[66-14] ^ W[66-16]), 1);
+    W[67] = ROTL((W[67-3] ^ W[67-8] ^ W[67-14] ^ W[67-16]), 1);
+    W[68] = ROTL((W[68-3] ^ W[68-8] ^ W[68-14] ^ W[68-16]), 1);
+    W[69] = ROTL((W[69-3] ^ W[69-8] ^ W[69-14] ^ W[69-16]), 1);
+    W[70] = ROTL((W[70-3] ^ W[70-8] ^ W[70-14] ^ W[70-16]), 1);
+    W[71] = ROTL((W[71-3] ^ W[71-8] ^ W[71-14] ^ W[71-16]), 1);
+    W[72] = ROTL((W[72-3] ^ W[72-8] ^ W[72-14] ^ W[72-16]), 1);
+    W[73] = ROTL((W[73-3] ^ W[73-8] ^ W[73-14] ^ W[73-16]), 1);
+    W[74] = ROTL((W[74-3] ^ W[74-8] ^ W[74-14] ^ W[74-16]), 1);
+    W[75] = ROTL((W[75-3] ^ W[75-8] ^ W[75-14] ^ W[75-16]), 1);
+    W[76] = ROTL((W[76-3] ^ W[76-8] ^ W[76-14] ^ W[76-16]), 1);
+    W[77] = ROTL((W[77-3] ^ W[77-8] ^ W[77-14] ^ W[77-16]), 1);
+    W[78] = ROTL((W[78-3] ^ W[78-8] ^ W[78-14] ^ W[78-16]), 1);
+    W[79] = ROTL((W[79-3] ^ W[79-8] ^ W[79-14] ^ W[79-16]), 1);
+
+    A = hash[0];
+    B = hash[1];
+    C = hash[2];
+    D = hash[3];
+    E = hash[4];
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[0] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[1] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[2] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[3] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[4] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[5] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[6] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[7] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[8] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[9] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[10] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[11] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[12] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[13] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[14] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[15] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[16] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[17] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[18] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[19] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[0] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[1] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[2] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[3] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[4] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[5] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[6] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[7] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[8] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[9] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[10] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[11] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[12] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[13] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[14] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[15] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[16] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[17] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[18] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ ((~B) & D)) + E + W[19] + K[0];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[40] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[41] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[42] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[43] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[44] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[45] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[46] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[47] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[48] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[49] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[50] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[51] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[52] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[53] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[54] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[55] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[56] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[57] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[58] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + ((B & C) ^ (B & D) ^ (C & D)) + E + W[59] + K[2];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[60] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[61] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[62] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[63] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[64] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[65] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[66] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[67] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[68] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[69] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[70] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[71] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[72] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[73] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[74] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[75] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[76] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[77] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[78] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    T = ROTL(A,5) + (B ^ C ^ D) + E + W[79] + K[3];
+    E = D;
+    D = C;
+    C = ROTL(B, 30);
+    B = A;
+    A = T;
+
+    hash[0] +=  A;
+    hash[1] +=  B;
+    hash[2] +=  C;
+    hash[3] +=  D;
+    hash[4] +=  E;
+    
+    return;
 }
 
 void sha256_md(unsigned char message[], int size, unsigned int hash[8]) {
