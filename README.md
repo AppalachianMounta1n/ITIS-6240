@@ -31,7 +31,7 @@ The base file [shaO.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects
 - [shaO-Efficient.c](https://github.com/AppalachianMounta1n/ITIS-6240-Projects/blob/main/SHA%20Implementation/shaO-Efficient.c)
 
 ### Changes
-- 
+- The loops in processing functions were all unrolled to remove the overhead of running loops. By doing this, the code was made significantly less readable (it went from not quite 500 lines to nearly 3000 lines) but the efficiency was drastically increased. We expected a 1% to 5% runtime increase for each set of 100 runs for SHA1, SHA256, and SHA512, but the end result was closer to a 45% improvement for each just from unrolling loops that ran a fixed set of times.
 
 ### Resulting Runtime Improvements
 - 
