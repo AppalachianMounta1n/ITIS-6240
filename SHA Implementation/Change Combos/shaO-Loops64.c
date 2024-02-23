@@ -79,7 +79,7 @@ void sha_msg_pad(unsigned char message[], int size, unsigned int bitlen,
 }
 
 void sha_msg_pad0(unsigned int bitlen, unsigned char paddedmsg[]) {
-    int i;
+ 
 
     paddedmsg[0]=0x00;
     paddedmsg[1]=0x00;
@@ -197,7 +197,7 @@ void sha1_process(unsigned int hash[], unsigned char msg[]) {
     const unsigned int K[4] = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
     unsigned int W[80];
     unsigned int A, B, C, D, E, T;
-    int i;
+  
 
     W[0] = (((unsigned) msg[0]) << 24) + (((unsigned) msg[1]) << 16) + (((unsigned) msg[2]) << 8) + (((unsigned) msg[3]));
     W[1] = (((unsigned) msg[4]) << 24) + (((unsigned) msg[5]) << 16) + (((unsigned) msg[6]) << 8) + (((unsigned) msg[7]));
@@ -909,7 +909,7 @@ void sha256_process(unsigned int hash[], unsigned char msg[]) {
         0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,
         0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2};
     unsigned int W[64];
-    int i;
+ 
     unsigned int A, B, C, D, E, F, G, H, T1, T2;
   
     W[0] = (((unsigned)msg[0 * 4]) << 24) | (((unsigned)msg[0 * 4 + 1]) << 16) | (((unsigned)msg[0 * 4 + 2]) << 8) | (((unsigned)msg[0 * 4 + 3]));
@@ -1858,7 +1858,7 @@ void sha512_process(unsigned long hash[], unsigned char msg[]) {
         0x06f067aa72176fba, 0x0a637dc5a2c898a6, 0x113f9804bef90dae, 0x1b710b35131c471b,
         0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc, 0x431d67c49c100d4c,
         0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817};
-    int i;
+ 
     unsigned long W[80];
     unsigned long A, B, C, D, E, F, G, H, T1, T2;
 
